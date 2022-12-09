@@ -17,6 +17,8 @@ const UserSchema = Schema({
         required: true,
         message: 'La contraseña es obligatoria'
     }
+}, {
+    versionKey: false,
 });
 
 module.exports = model('User', UserSchema);

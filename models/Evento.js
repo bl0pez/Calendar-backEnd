@@ -1,6 +1,6 @@
-const { Shema, model } = require('mongoose');
+const { Schema, model } = require('mongoose');
 
-const EventoSchema = Shema({
+const EventoSchema = Schema({
     title: {
         type: String,
         required: true,
@@ -18,11 +18,13 @@ const EventoSchema = Shema({
         required: true,
     },
     user: {
-        type: Shema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'Usuario',
         required: true,
         message: 'El usuario es obligatorio'
     }
+}, {
+    versionKey: false,
 });
 
 module.exports = model('Evento', EventoSchema);
