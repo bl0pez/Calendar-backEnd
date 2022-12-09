@@ -1,18 +1,19 @@
 const User = require('../models/User');
 const bcryptjs = require('bcryptjs');
+const { generarJWT } = require('../helpers/jwt');
 
 
 const createUser = async (req, res) => {
 
     const { name, email, password } = req.body;
-    
+
     try {
 
         let user = await User.findOne({ email });
 
-        if(user) {
+        if (user) {
             return res.status(400).json({
-                msg: 'El usuario ya existe con ese email'
+                message: 'El usuario ya existe con ese email'
             });
         }
 
@@ -24,9 +25,13 @@ const createUser = async (req, res) => {
 
         await user.save();
 
+        // Generar el JWT
+        const token = await generarJWT(user._id, user.name)
+
         res.json({
             uid: user._id,
-            name: user.name
+            name: user.name,
+            token
         });
     } catch (error) {
         res.status(500).json({
@@ -36,19 +41,37 @@ const createUser = async (req, res) => {
 
 }
 
-const loginUsuario = async(req, res) => {
+const loginUsuario = async (req, res) => {
 
     const { email, password } = req.body;
 
     try {
-        
-        let user = await User.findOne({ email });
 
-        if(!user) {
+        const user = await User.findOne({ email });
+
+        if (!user) {
             return res.status(400).json({
-                msg: 'El usuario no existe con ese email'
+                message: 'El usuario no existe con ese email'
             });
         }
+
+        // Confirmar los passwords
+        const validPassword = bcryptjs.compareSync(password, user.password);
+
+        if (!validPassword) {
+            return res.status(400).json({
+                message: 'Password incorrecto'
+            });
+        }
+
+        // Generar el JWT
+        const token = await generarJWT(user._id, user.name);
+
+        res.json({
+            uid: user._id,
+            name: user.name,
+            token
+        })
 
     } catch (error) {
         res.status(500).json({
