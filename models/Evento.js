@@ -19,7 +19,9 @@ const EventoSchema = Shema({
     },
     user: {
         type: Shema.Types.ObjectId,
-        ref: 'Usuario'
+        ref: 'Usuario',
+        required: true,
+        message: 'El usuario es obligatorio'
     }
 });
 
