@@ -24,9 +24,9 @@ router.post('/', [
     validarCampos,
 ], createEvent);
 
-router.put('/:id', updateEvent);
+router.put('/:_id', updateEvent);
 
-router.delete('/:id', deleteEvent);
+router.delete('/:_id', deleteEvent);
 
 
 module.exports = router;
