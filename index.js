@@ -21,6 +21,14 @@ app.use(express.json());
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/events', require('./routes/events'));
 
+//Ruta no encontrada
+app.use('*', (req, res) => {
+    res.status(404).json({
+        ok: false,
+        msg: 'Ruta no encontrada'
+    });
+});
+
 app.listen(process.env.PORT, () => {
     console.log(`Servidor ON: http://localhost:${process.env.PORT}/`);
 });
