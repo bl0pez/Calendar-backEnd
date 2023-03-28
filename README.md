@@ -1,3 +1,6 @@
+# Descripción
+Backend de la aplicación de calendario. Se encarga de la autenticación de usuarios y la gestión de eventos.
+
 # Instalación
 
 1. clona el repositorio
